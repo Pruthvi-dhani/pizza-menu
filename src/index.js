@@ -73,11 +73,17 @@ function Menu() {
     <main className="menu">
       <h2> Our Menu </h2>
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            We sell authentic Italian pizzas here. Please checkout our Menu
+            below:
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still working on our Menu, please come back later.</p>
       )}
@@ -85,15 +91,15 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  if (props.pizzaObj.soldOut) return null;
+function Pizza({ pizzaObj }) {
+  if (pizzaObj.soldOut) return null;
   return (
     <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.price}</span>
       </div>
     </li>
   );
@@ -115,7 +121,7 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <Order closedHour={closedHour} />
+        <Order closedHour={closedHour} openHour={openHour} />
       ) : (
         <p>
           Currently closed, but we're happy to welcome you between{" "}
@@ -127,12 +133,12 @@ function Footer() {
   // return React.createElement("footer", null, "We're currently open!");
 }
 
-function Order(props) {
+function Order({ closedHour, openHour }) {
   return (
     <div className="order">
       <p>
-        We're open until {`${props.closedHour}:00`}. Come visit us or order
-        online.
+        We're open from {openHour}:00 until {closedHour}:00. Come visit us or
+        order online.
       </p>
       <button className="btn">Order</button>
     </div>
